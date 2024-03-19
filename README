@@ -1,0 +1,15 @@
+# To make the library libhj in your home directory:
+
+./configure --prefix=$HOME
+make clean
+make install
+
+# $HOME/include and $HOME/lib are created.
+
+# To make and install libhj for all users in the system directories:
+
+#./configure 
+#make clean
+#make install
+
+# Please see the file INSTALL for more details.

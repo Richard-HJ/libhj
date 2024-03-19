@@ -1,0 +1,189 @@
+VERSION 4.8.2
+16 May 23
+		Modify net_snmp.h net_snmp.c to report interface errors and dropped packets
+
+VERSION 4.8.1
+05 Apr 23
+		Correct set_cpu_affinity () to use 	unsigned long one=1; for mask shift operations.
+		Use #include <net/if.h> not #include <linux/if.h> in NIC_Stats.h (avoids redeclarations)
+		
+		
+VERSION 4.8.0
+13 Sep 22
+		Add InfoStore code
+		Modify socks create_tcp_soc, create_udp_soc, create_raw_soc not to set buffer size if soc_buf_size==0
+		Add sock_get_tcp_bufsize( ) sock_get_tcpinfo() to sock_functions.c
+		Pring interface titles&counts for TCP snmp output net_snmp_print_info_file()
+		Add print table option to CPUStat_print_cpu_info_file()
+		Due to linker confustion: 
+			remove hist_ptr from hist.h (was not used)
+			put StopWatch_substract & StopWatch_delay_substract into struct _StopWatch. Add SW_Init()
+
+VERSION 4.7.1
+06 Jun 20
+		Correct NIC_Stats to allow fir NICs that do not implement the statistics registers
+		add version.h to provide hjlib version - changes to version.h.in, configure.am, libhj.spec.in, Makefile.am
+		
+VERSION 4.7.0
+17 May 20
+		Rename CPUStat directory Stats
+		Put all *Stat(s) functions and Statistics.* under Stats
+		Unify calls of old and "new" Statistics functions e.g. Statistics_Init( Statistics *s, char *name) has name
+		Update timer code to use new Statistics functions
+		Add TransientBuf.c & .h to RingBuf directory
+		configure.ac enable subdir-objects AM_INIT_AUTOMAKE([subdir-objects])
+		Makefile.am use AM_CPPFLAGS = -Iinclude not INCLUDES
+
+VERSION 4.6.1
+07 Jan 20
+        Add tx_global_pause_duration to NIC_Stats
+
+VERSION 4.6.0
+04 Jul 19
+	Add collection of NIC level statistics with NIC_Stats.c NIC_Stats.h in CPUStats/
+
+
+VERSION 4.5.7
+Sep 18
+	Correct number of cores printed - use of num_cpus=CPUStatMax_cpus CPUStat_print_cpu_info_file() in CPUStat.c
+
+VERSION 4.5.6
+Feb 16
+	Remove test for wanted ethernet interfaces - accept all interfaces
+	Increase the number of interfaces to 16
+
+VERSION 4.5.2
+Feb 16
+	Correct cpu_affinity.c to use 64 bit bit-mask for cpus
+ 	Enable CPUstat to cope with 40 CPUs add CPUStat_Init() to libhj.
+VERSION 4.5.1
+Nov 15
+	Development version of 4.5.2 fro SC15 tests
+
+VERSION 4.5.0
+Jan 14
+	Improve Autotools and spec for rpm generation: Attila Bogár <attila.bogar@gmail.com>
+	Use autoreconf -i in bootstrap
+	Add files: AUTHORS ChangeLog NEWS COPYING INSTALL
+	Add required AM_PROG_CC_C_O in configure.in
+	Remove use of CFLAGS from Makefile.am
+	Edit spec files: name distribution libhj-devel (convention); Fix the build- process and location;
+
+VERSION 4.4.1
+Nov-Dec 13
+        Add support for 32bit timer wrap-round in ARMv6 as in Raspberry Pi
+	Remove dnl comment in Makefile.am - compile problem with Fedora 19
+
+VERSION 4.4.0
+30 Mar 13
+        Add support for ARMv6 as in Raspberry Pi
+	Add ARMv6 in configure.in
+	Add section in arch.h - worry about BYTE_SWAP_ON
+	Add ARM asm in RealTime.h RealTime_Time()
+	sys_utils.h CPUid() - assume 1 CPU
+
+VERSION 4.3.2
+10 Jul 10
+        Add set_cpu_affinity()
+
+VERSION 4.3.0
+10 Jul 10
+        Add support for IPv6
+	In sock/ add the sock_create_xxx_socket() functions with an address family parameter
+	Add sock/sock_functions.c with sock_ntop() sock_get_port() sock_set_port() sock_cmp_addr()
+
+VERSION 4.2.6
+10 Jul 10
+	Modify RealTime.c to burn CPU rather than sleep() to avoid cpuidle & cpufreq  power-saving issues
+        Add LICENSE file
+
+VERSION 4.2.5
+27 Jan 10
+        Add CPUStat/net_snmp.c parse_snmp_text() to parse /proc/net/snmp - modify net_snmp_Info()
+
+VERSION 4.2.4
+04 Jan 10
+        Add hist/h_print_file(),h_output_file(),h_prt_stats_file() with FILE *output parameter
+	Modify h_print()h_output(),h_prt_stats() to call *_file() with FILE *output=stdout
+	Add CPUStat/CPUStat_print_inter_info_file(),CPUStat_print_inter_info_file() with FILE *output parameter
+	Modify CPUStat_print_inter_info(),CPUStat_print_inter_info() to call *_file() with FILE *output=stdout
+
+VERSION 4.2.3
+06 Aug 09
+        Allow for >4 CPUs in counting interrupts CPUStat_Info() - count the CPUn headings
+	Add  CPUStat_print_cpu_info() CPUStat_print_inter_info() net_snmp_print_info()
+
+VERSION 4.2.2
+08 Jul 09
+	Changed getline() to GetLine()
+
+VERSION 4.2.1
+17 Jan 09
+        CPUStat/CPUstat.c - fix case where there is no interrupt name
+	Thanks to Hans Blom tryllian.com & Simon Casey chalmers.se
+
+VERSION 4.2.0
+22 Apr 08
+        Add user_if/menu.c
+        Add user_if/param_io.c
+        Add user_if/line_io.c  getline() and readline()
+        Add CPUStat/disk_io.c
+            to all in CPUStat add xxx_Snap() - to get snapshot of the statistics being recorded 
+
+
+VERSION 4.1.4
+15 Nov 06
+        Fix the location of the libhj dependent on the Architecture
+
+VERSION 4.1.3
+05 Nov 06
+        CPUStat/CPUstat.c - fix end of string problem
+	
+VERSION 4.1.2
+18 May 06
+	CPUStat/CPUstat.c allow for multiple devices using each interupt - record all device names
+	CPUStat/CPU_net_types.h - extra RAID interface
+
+VERSION 4.1.1
+15 May 06
+	Changes to Eth_lib/Eth_lib.h
+
+VERSION 4.1.0
+May 06
+	Add Eth_lib/Eth_lib.h - Ethernet packet constructor + HW interface functions
+	Add sys_utils/sys_utils.h - CPUid - return id of CPU
+	Add to socks - create_raw_socket() PF_PACKET + SOCK_RAW
+
+VERSION 4.0.4
+Oct 05
+	Add CPUStat/CPU_net_types.h - interupt devices and cpu names
+	Add CPUStat/net_snmp.c - net_snmp_Snap() and work round 32 bit counters wrapping in the network interfaces.
+
+VERSION 4.0.3
+Jun 05
+	Add CPUStat/net_snmp - network interface and snmp information
+	Put Interface names into CPUStat.h
+	AMD 64 bit architecture support - timers/ ReaalTime.h include/arch.h
+
+VERSION 4.0.2
+Dec 04
+	Add HISTORY with changes mode made to the library
+	CPUStat
+		extend struct _CPUinfo{} to support "user nice system idle i/owait irq softirq"
+		make backward compatible
+
+VERSION 4.0.1
+Oct 04
+	Add README with how to build the code
+	Add RingBuf routines
+	CPUStat
+		rename CPUStat_buf and  *CPUStat_name (simple buffer names were global!)
+	hist
+		extend precision in printf for  h_prt_stats()
+	timers
+		put arch.h and int64 into RealTime.h
+
+
+VERSION 4.0.0
+May 04
+	Conversion to Automake by Anders Waananen <waananen@nbi.dk>
