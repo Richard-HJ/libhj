@@ -1,5 +1,7 @@
 # To make the library libhj in your home directory:
 
+#autoreconf -i Copy missing auxiliary files -f consider all files obsolete
+autoreconf -if
 ./configure --prefix=$HOME
 make clean
 make install
@@ -8,6 +10,8 @@ make install
 
 # To make and install libhj for all users in the system directories:
 
+#autoreconf -i Copy missing auxiliary files -f consider all files obsolete
+#autoreconf -if
 #./configure 
 #make clean
 #make install
