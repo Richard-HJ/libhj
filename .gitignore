@@ -3,6 +3,9 @@
 # Ignore ALL .log files
 *.log
 
+# Ignore ALL *~ files
+*~
+
 # tar files
 *.tar
 *.gz
