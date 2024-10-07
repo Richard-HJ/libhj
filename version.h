@@ -5,4 +5,4 @@
 
 */
 
-char *LIBHJ_VERSION={" libhj Version 4.8.2 "};
+char *LIBHJ_VERSION={" libhj Version 4.9.1 "};

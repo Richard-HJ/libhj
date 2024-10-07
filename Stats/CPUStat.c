@@ -131,6 +131,7 @@ void CPUStat_Start( CPUStat* s)
   int stats_desc;
   char line[8192];
   int cpu_no=0;
+  int nread=0;
 
   /* set the snapshot flag - helps not decode the CPUStat_Start() data */
   s->snapshot = 0;
@@ -145,7 +146,11 @@ void CPUStat_Start( CPUStat* s)
         perror("Error: open FILE_INTERRUPTS failed :");   /* descr. is used */
         exit(-1);
     }
-    read(stats_desc, s->interrupt1_buf, CPUStat_MAX_BUF);
+    nread = read(stats_desc, s->interrupt1_buf, CPUStat_MAX_BUF);
+	if(nread == 0) {
+        printf("Error: read of interrupt stats file failed \n");   
+        exit(-1);
+    }		
     s->interrupt1_buf[CPUStat_MAX_BUF-1] = 0;
     close(stats_desc); 
  
@@ -199,6 +204,7 @@ void CPUStat_Stop( CPUStat* s)
   int stats_desc;
   char line[8192];
   int cpu_no=0;
+  int nread = 0;
 
 
 /* open the file with the interrupt stats and read it all */
@@ -206,7 +212,11 @@ void CPUStat_Stop( CPUStat* s)
         perror("Error: open FILE_INTERRUPTS failed :");   /* descr. is used */
         exit(-1);
     }
-    read(stats_desc, s->interrupt2_buf, CPUStat_MAX_BUF);
+    nread = read(stats_desc, s->interrupt2_buf, CPUStat_MAX_BUF);
+	if(nread == 0) {
+        printf("Error: read of interrupt stats file failed \n");   
+        exit(-1);
+    }		
     s->interrupt2_buf[CPUStat_MAX_BUF-1] = 0;
     close(stats_desc); 
 

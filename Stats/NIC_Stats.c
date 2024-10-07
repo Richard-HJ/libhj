@@ -18,6 +18,7 @@
 
 #include "NIC_Stats.h"          /* for interface and snmp counters */
 
+/* Mellanox mlx5_core counter names */
 char *NIC_Stats_name[]={        /* The length of this list MUST be less than NIC_STATS_MAX_INDEX */
     "rx_packets",
     "tx_packets",
@@ -28,6 +29,19 @@ char *NIC_Stats_name[]={        /* The length of this list MUST be less than NIC
     "tx_global_pause_duration",
     "rx_crc_errors_phy",
     "rx_out_of_buffer",
+    NULL};
+
+/* Broadcom bnxt_en counter names */
+char *NIC_Stats_Broadcom[]={        /* The length of this list MUST be less than NIC_STATS_MAX_INDEX */
+    "rx_ucast_frames",
+    "tx_ucast_frames",
+    "rx_total_frames",
+    "tx_total_frames",
+    "rx_pause_frames",
+    "tx_pause_frames",
+    "not_found",
+    "rx_stat_err",
+    "rx_stat_discard",
     NULL};
 
 
@@ -49,7 +63,7 @@ void nic_stats_Init( NIC_Stat* s, int soc, char *devname)
 
 
 	s->soc = soc;
-        s->nic_stats_supported =0;  /* not supported yet */
+	s->nic_stats_supported =0;  /* not supported yet */
 
 	/* find the number of stats we wnat to keep */
 	s->num_stats_keep =0;
@@ -72,6 +86,25 @@ void nic_stats_Init( NIC_Stat* s, int soc, char *devname)
 	if (ret == -1 )return;
 	s->num_stats = drvinfo.n_stats;
 
+	printf("NIC driver %s ", drvinfo.driver);
+
+	if(strcmp(drvinfo.driver, "mlx5_core") ==0 ){
+		printf("Mellanox \n");
+	}
+	else if(strcmp(drvinfo.driver, "bnxt_en") ==0 ){
+		printf("Broadcom \n");
+		/* copy Broadcom counter names */
+		for (j=0; (NIC_Stats_name[j]!=NULL); j++){
+			NIC_Stats_name[j]= NIC_Stats_Broadcom[j]; 
+		}
+	}
+	else {
+		printf("Unknown \n");
+		/* nic_stats_supported =0; not supported yet */
+		return;
+	}
+		
+		
 	/* allocate space for NIC stats names */
 	stats_names = calloc(1, (s->num_stats*ETH_GSTRING_LEN + sizeof(struct ethtool_gstrings)));
 	/* get the stats names from the NIC */

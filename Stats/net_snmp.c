@@ -103,6 +103,7 @@ void net_snmp_Start( NET_SNMPStat* s)
 {
   int stats_desc;
   int i;
+  int nread;
 
 /* initialise NET_SNMPstat */
     for(i=0;i<NET_SNMP_MAX_IF;i++){
@@ -165,7 +166,11 @@ void net_snmp_Start( NET_SNMPStat* s)
         perror("Error: open FILE_NETDEV failed :");   /* descr. is used */
         exit(-1);
     }
-    read(stats_desc, s->net1_buf, NET_SNMP_MAX_BUF);
+    nread = read(stats_desc, s->net1_buf, NET_SNMP_MAX_BUF);
+	if(nread == 0) {
+        printf("Error: read of stats file failed \n");   
+        exit(-1);
+    }		
     s->net1_buf[NET_SNMP_MAX_BUF-1] = 0;
     close(stats_desc); 
 
@@ -175,7 +180,11 @@ void net_snmp_Start( NET_SNMPStat* s)
 			perror("Error: open FILE_NETSNMP failed :");   /* descr. is used */
 			exit(-1);
 		}
-		read(stats_desc, s->snmp1_buf, NET_SNMP_MAX_BUF);
+		nread = read(stats_desc, s->snmp1_buf, NET_SNMP_MAX_BUF);
+		if(nread == 0) {
+			printf("Error: read of snmp4 file failed \n");   
+			exit(-1);
+		}		
 		s->snmp1_buf[NET_SNMP_MAX_BUF-1] = 0;
 		close(stats_desc); 
 	} /* end IPv4 */
@@ -184,7 +193,11 @@ void net_snmp_Start( NET_SNMPStat* s)
 			perror("Error: open FILE_NETSNMP6 failed :");   /* descr. is used */
 			exit(-1);
 		}
-		read(stats_desc, s->snmp1_buf6, NET_SNMP_MAX_BUF);
+		nread = read(stats_desc, s->snmp1_buf6, NET_SNMP_MAX_BUF);
+		if(nread == 0) {
+			printf("Error: read of snmp6 file failed \n");   
+			exit(-1);
+		}		
 		s->snmp1_buf6[NET_SNMP_MAX_BUF-1] = 0;
 		close(stats_desc); 
     } /* end IPv6 */
@@ -195,13 +208,18 @@ void net_snmp_Stop( NET_SNMPStat* s)
 /* --------------------------------------------------------------------- */
 {
   int stats_desc;
+  int nread;
 
 /* open the file with the interface stats and read it all */
     if ( (stats_desc = open(FILE_NETDEV, O_RDONLY) ) == -1) {
         perror("Error: open FILE_NETDEV failed :");   /* descr. is used */
         exit(-1);
     }
-    read(stats_desc, s->net2_buf, NET_SNMP_MAX_BUF);
+    nread = read(stats_desc, s->net2_buf, NET_SNMP_MAX_BUF);
+	if(nread == 0) {
+        printf("Error: read of stats file failed \n");   
+        exit(-1);
+    }		
     s->net2_buf[NET_SNMP_MAX_BUF-1] = 0;
     close(stats_desc); 
  
@@ -211,7 +229,11 @@ void net_snmp_Stop( NET_SNMPStat* s)
 			perror("Error: open FILE_NETSNMP failed :");   /* descr. is used */
 			exit(-1);
 		}
-		read(stats_desc, s->snmp2_buf, NET_SNMP_MAX_BUF);
+		nread = read(stats_desc, s->snmp2_buf, NET_SNMP_MAX_BUF);
+		if(nread == 0) {
+			printf("Error: read of snmp4 file failed \n");   
+			exit(-1);
+		}		
 		s->snmp2_buf[NET_SNMP_MAX_BUF-1] = 0;
 		close(stats_desc); 
 	} /* end IPv4 */
@@ -220,7 +242,11 @@ void net_snmp_Stop( NET_SNMPStat* s)
 	    perror("Error: open FILE_NETSNMP6 failed :");   /* descr. is used */
 	    exit(-1);
 		}
-		read(stats_desc, s->snmp2_buf6, NET_SNMP_MAX_BUF);
+		nread = read(stats_desc, s->snmp2_buf6, NET_SNMP_MAX_BUF);
+		if(nread == 0) {
+			printf("Error: read of snmp6 file failed \n");   
+			exit(-1);
+		}		
 		s->snmp2_buf6[NET_SNMP_MAX_BUF-1] = 0;
 		close(stats_desc); 
     } /* end IPv6 */

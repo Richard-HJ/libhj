@@ -1,3 +1,9 @@
+VERSION 4.9.1
+07 Oct 24
+		Modify NIC_Stats.c to detect and use Broadcom counters & report NIC & driver found
+		CPU_net_maximum.h Increase number of CPU cores to 96
+		Note: with libhj-4.9.1 CMD_GETCPULOAD expects data block to be 96 cores long (not 64)
+
 VERSION 4.8.2
 16 May 23
 		Modify net_snmp.h net_snmp.c to report interface errors and dropped packets
