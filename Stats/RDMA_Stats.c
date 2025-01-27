@@ -111,7 +111,7 @@ void rdma_stats_Start( RDMA_Stat* s)
 			perror(error_msg );
 			exit(-1);
 		}
-		if(fscanf(stats_file, "%ld", &s->rdma_stats1[i]) != 1) ) {
+		if(fscanf(stats_file, "%ld", &s->rdma_stats1[i]) != 1) {
 			perror("Error: Could not read RDMA stats counter value" );
 			exit(-1);
 		}
