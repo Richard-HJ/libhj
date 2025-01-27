@@ -183,7 +183,6 @@ void hex2cpuset( cpu_set_t *cpuset , char *hex_str)
 	size_t len;
 	int n;
 	char* c;
-	int intc;
 	int i, j;
 	int value;
 	int last_char;
@@ -207,8 +206,6 @@ void hex2cpuset( cpu_set_t *cpuset , char *hex_str)
 	j=0;
 	for(n=len-1; n>last_char; n=n-1){
 		c = (hex_str+n);
-		intc = (int) *c;
-		//printf(" n %d hexchar %c %d ", n, *c, intc);
 		// read as hex
 		sscanf(c, "%1x", &value);
 		//printf(" hex value %d\n", value);
