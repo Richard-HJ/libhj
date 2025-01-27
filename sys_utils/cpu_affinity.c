@@ -3,7 +3,7 @@
        
 */
 /*
-   Copyright (c) 2012 Richard Hughes-Jones, University of Manchester
+   Copyright (c) 2012 to 2025 Richard Hughes-Jones, University of Manchester
    All rights reserved.
 
    Redistribution and use in source and binary forms, with or
@@ -155,14 +155,12 @@ void cpuset2hex( cpu_set_t *cpuset , char *hex_str)
 		for(i=0; i<8; i++){
 			cpu = CPU_ISSET(i+j,cpuset);
 			if(cpu !=0) byte_mask[n] = byte_mask[n] |(1<<i);
-			//printf(" j %d i %d j+i %d cpu %d byte_mask %02x\n", j, i, j+i, cpu, byte_mask[n]);
 		}
 		if(byte_mask[n] !=0) last_non_zero=n;  // record the last used mask
-		//printf(" ========== j %d n %d byte_mask %02x last_non_zero %d\n", j, n, byte_mask[n], last_non_zero);
 		n++;
 	}
 	
-	str_ptr = hex_str;
+	str_ptr = hex_str; // remember the start of the string
 	/* form the hex string starting form the largest enabled core */
 	for(n=last_non_zero; n>-1; n=n-1){
 		//printf("   addres hex_str %p \n", hex_str);
@@ -171,12 +169,9 @@ void cpuset2hex( cpu_set_t *cpuset , char *hex_str)
 		} else{
 			sprintf(hex_str, "%02X", byte_mask[n]);
 		}
-		printf(" n %d hex_str %s \n", n, hex_str);
 		hex_str=hex_str+2;
 	}
 	*hex_str=0;
-	
-	printf("cpu_str %s\n", str_ptr);
 	hex_str=str_ptr;
 	
 }
@@ -196,15 +191,12 @@ void hex2cpuset( cpu_set_t *cpuset , char *hex_str)
 	char* hex_ptr;
 	
 	len = strlen(hex_str);
-	printf("len %d\n", (int)len);
-	printf("hex_str %s\n", hex_str);
 	
 	hex_ptr = hex_str;   // local
-	printf("hex_ptr %p \n", hex_ptr);
 	
 	/* check for and remove any 0x hex starter */
 	ptr = strstr(hex_str, "0x");
-	printf("ptr %p \n", ptr);
+	//printf("ptr %p \n", ptr);
 	if(ptr != hex_ptr || len <= 2) {
 		printf(" Affinity hexadecimal string not properly formed \n");
 		exit(-1);
@@ -216,14 +208,14 @@ void hex2cpuset( cpu_set_t *cpuset , char *hex_str)
 	for(n=len-1; n>last_char; n=n-1){
 		c = (hex_str+n);
 		intc = (int) *c;
-		printf(" n %d hexchar %c %d ", n, *c, intc);
+		//printf(" n %d hexchar %c %d ", n, *c, intc);
 		// read as hex
 		sscanf(c, "%1x", &value);
-		printf(" hex value %d\n", value);
+		//printf(" hex value %d\n", value);
 		for( i=0; i<4; i++){
 			if((value &(1<<i)) > 0){
 				CPU_SET(i+j,cpuset);
-				printf("CPU_SET %d\n", i+j);
+				//printf("CPU_SET %d\n", i+j);
 			}
 		}
 		j = j +4;
@@ -284,7 +276,7 @@ action =1 do set_affinity pid <== new_set
 			return (-1);
 		}
 		cpuset2hex(&cur_cpuset , hex_str);
-		printf("Set affinity: %s ", hex_str);
+		printf("Set affinity: %s\n ", hex_str);
 	}
 	
 	return(0);
@@ -295,7 +287,6 @@ void	set_cpu_affinity_num (int core, int quiet)
 {
 	/* cpu_affinity_core = -1 == do not set anything just report */
     cpu_set_t new_cpuset;
-printf("set_cpu_affinity_num core %d \n", core);
 	if( core != -1){
 		CPU_ZERO(&new_cpuset);
 		CPU_SET(core, &new_cpuset);
