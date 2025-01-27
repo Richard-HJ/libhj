@@ -89,7 +89,11 @@ void rdma_stats_Start( RDMA_Stat* s)
 			perror(error_msg );
 			exit(-1);
 		}
-		fscanf(stats_file, "%ld", &s->rdma_hw_stats1[i]);
+		if(fscanf(stats_file, "%ld", &s->rdma_hw_stats1[i]) != 1) {
+			perror("Error: Could not read hardware counter value" );
+			exit(-1);
+		}
+			
 		fclose(stats_file); 
 		//printf("nic_stats_Start() %d %s stats %ld \n", i, RDMA_Stats_hw_counters[i], s->rdma_hw_stats1[i]);
 
@@ -107,7 +111,10 @@ void rdma_stats_Start( RDMA_Stat* s)
 			perror(error_msg );
 			exit(-1);
 		}
-		fscanf(stats_file, "%ld", &s->rdma_stats1[i]);
+		if(fscanf(stats_file, "%ld", &s->rdma_stats1[i]) != 1) ) {
+			perror("Error: Could not read RDMA stats counter value" );
+			exit(-1);
+		}
 		fclose(stats_file); 
 		//printf("nic_stats_Start() %d %s stats %ld \n", i, RDMA_Stats_counters[i], s->rdma_stats1[i]);
 
@@ -131,7 +138,10 @@ void rdma_stats_Stop( RDMA_Stat* s)
 			perror("Error: open RDMA stats file failed :");   /* descr. is used */
 			exit(-1);
 		}
-		fscanf(stats_file, "%ld", &s->rdma_hw_stats2[i]);
+		if(fscanf(stats_file, "%ld", &s->rdma_hw_stats2[i]) !=1 ) {
+			perror("Error: Could not read hardware counter value" );
+			exit(-1);
+		}
 		fclose(stats_file); 
 		//printf("nic_stats_Stop() %d %s stats %ld \n", i, RDMA_Stats_hw_counters[i], s->rdma_hw_stats2[i]);
 
@@ -146,7 +156,10 @@ void rdma_stats_Stop( RDMA_Stat* s)
 			perror("Error: open RDMA stats file failed :");   /* descr. is used */
 			exit(-1);
 		}
-		fscanf(stats_file, "%ld", &s->rdma_stats2[i]);
+		if(fscanf(stats_file, "%ld", &s->rdma_stats2[i]) !=1 ) {
+			perror("Error: Could not read hardware counter value" );
+			exit(-1);
+		}
 		fclose(stats_file); 
 		//printf("nic_stats_Stop() %d %s stats %ld \n", i, RDMA_Stats_counters[i], s->rdma_stats2[i]);
 

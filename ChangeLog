@@ -3,6 +3,7 @@ VERSION 4.9.2
 		sys_utils: Allow use of > 64 cores by using cpu_set_t cpuset to define which cores to use
 		Add set_cpu_affinity_num() set_cpu_affinity_cpuset() cpuset2hex() hex2cpuset()
 		Stats: CPU_net_maximum.h Increase number of CPU cores to 128
+		Correct use of return valuse for fscanf() in RDMA_Stats.c
 
 VERSION 4.9.1
 07 Oct 24
