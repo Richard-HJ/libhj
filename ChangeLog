@@ -1,8 +1,15 @@
+VERSION 4.9.2
+27 Jan 25
+		sys_utils: Allow use of > 64 cores by using cpu_set_t cpuset to define which cores to use
+		Add set_cpu_affinity_num() set_cpu_affinity_cpuset() cpuset2hex() hex2cpuset()
+		Stats: CPU_net_maximum.h Increase number of CPU cores to 128
+
 VERSION 4.9.1
 07 Oct 24
 		Modify NIC_Stats.c to detect and use Broadcom counters & report NIC & driver found
 		CPU_net_maximum.h Increase number of CPU cores to 96
 		Note: with libhj-4.9.1 CMD_GETCPULOAD expects data block to be 96 cores long (not 64)
+		Checked return from read() CPUstat.c and net_snmp.c
 
 VERSION 4.8.2
 16 May 23

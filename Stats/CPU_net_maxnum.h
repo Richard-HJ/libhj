@@ -47,6 +47,6 @@
 #define NET_SNMP_MAX_IF 16
 
 /* total number of CPUs */
-#define NET_SNMP_MAX_CPU 96
+#define NET_SNMP_MAX_CPU 128
 
 #endif      /* CPU_net_maxnum */

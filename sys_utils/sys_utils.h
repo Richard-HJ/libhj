@@ -55,8 +55,17 @@ extern int CPUid_apicid_list[CPUid_MAX_SYS_CPUS];
 /* Make a list of which apic_id is in which CPU. */
 int CPUid_init(int quiet);
 
+/* for processing the cpu_set_t struct */
+#define SET_CPUCORE_LEN_BYTES 128
+
 /* set the cpu affinity of this process */
 int set_cpu_affinity (unsigned long new_mask, int quiet);
+void cpuset2hex( cpu_set_t *cpuset , char *hex_str);
+void hex2cpuset( cpu_set_t *cpuset , char *hex_str);
+int	set_cpu_affinity__(cpu_set_t *new_cpuset, int quiet, int action);
+void set_cpu_affinity_num (int cpu_affinity_core, int quiet);
+void set_cpu_affinity_cpuset (cpu_set_t *new_cpuset, int quiet);
+
 
 INLINE int CPUid()
 /* --------------------------------------------------------------------- */
