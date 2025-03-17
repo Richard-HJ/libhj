@@ -676,7 +676,7 @@ Print interface & snmp info
   net_snmp_print_info_file( net_if_info, snmp_info, option, loc_rem, stdout);
 }
 
-void net_snmp_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output)
+void net_snmp_print_info_file_OLD( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output)
 /* --------------------------------------------------------------------- */
 {
 /*
@@ -788,5 +788,240 @@ Print interface & snmp info
   }
 
   return;
+
+} /* end of  net_snmp_print_info */
+
+
+void net_print_info( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print interface info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print interface info titles
+                  =2 print interface data
+                  =3 print titles for a table
+                  =4 print data in a table
+*/
+	net_print_info_file( net_if_info, snmp_info, option, loc_rem, stdout);
+}
+
+void net_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print interface info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print interface info titles
+                  =2 print interface data
+                  =3 print titles for a table
+                  =4 print data in a table
+*/
+  int i;
+
+
+	switch(option){
+		case 1:  // print net i/f titles
+		/* interface titles */
+			fprintf(output, " %c if; interface:; pktsin; bytesin; errin; dropin; pktsout; bytesout; errout; dropout;", loc_rem);
+		break;
+
+		case 2:  // print net i/f data
+		/* interface counts */
+			fprintf(output, "%c if;", loc_rem);
+			for (i=0; i<NET_SNMP_MAX_IF; i++){
+				if(net_if_info[i].name[0] != 0){
+					fprintf(output, "%s: ; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+					&net_if_info[i].name[0], 
+					net_if_info[i].pktsin, net_if_info[i].bytesin,
+					net_if_info[i].errin, net_if_info[i].dropin,
+					net_if_info[i].pktsout, net_if_info[i].bytesout,
+					net_if_info[i].errout, net_if_info[i].dropout);
+				}
+			}
+		break;
+		
+		case 3:  // print titles for a table
+			fprintf(output, " %c if; interface:; pktsin; bytesin; errin; dropin; pktsout; bytesout; errout; dropout;", loc_rem);
+			fprintf(output, "\n");
+		break;
+
+		case 4:  // print data in a table
+			for (i=0; i<NET_SNMP_MAX_IF; i++){
+				if(net_if_info[i].name[0] != 0){
+					fprintf(output, "%s: ; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+					&net_if_info[i].name[0], 
+					net_if_info[i].pktsin, net_if_info[i].bytesin,
+					net_if_info[i].errin, net_if_info[i].dropin,
+					net_if_info[i].pktsout, net_if_info[i].bytesout,
+					net_if_info[i].errout, net_if_info[i].dropout);
+				}
+				fprintf(output, "\n");
+			}
+		break;
+}
+
+  return;
+
+} /* end of  net_print_info_file */
+
+void snmp_print_info( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print snmp info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print UDP titles
+                  =2 print UDP data
+                  =3 print TCP titles
+                  =4 print TCP data
+                  =5 print both UDP & TCP titles
+                  =6 print both UDP & TCP data
+*/
+	snmp_print_info_file( net_if_info, snmp_info, option, loc_rem, stdout);
+}
+
+void snmp_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print snmp info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print UDP titles
+                  =2 print UDP data
+                  =3 print TCP titles
+                  =4 print TCP data
+                  =5 print both UDP & TCP titles
+                  =6 print both UDP & TCP data
+*/
+  int i;
+
+/* set default options ie IPv4 only */
+	if(init_called ==0){
+		snmp_info->mode = SNMP_V4;
+	}
+
+	switch(option){
+		case 1:  // print UDP titles
+		case 5:  // print both UDP & TCP titles
+			/* snmp titles IPv4 */
+			if((snmp_info->mode & SNMP_V4) ==  SNMP_V4) {
+				fprintf(output, " %c snmp; InReceives; InDiscards; OutRequests; OutDiscards;", loc_rem); 
+				fprintf(output, " UDPInDatagrams; UDPInErrors; UDPOutDatagrams;");
+			}
+	
+			/* snmp titles IPv6 */
+			if((snmp_info->mode & SNMP_V6) ==  SNMP_V6) {
+				fprintf(output, " %c snmp6;", loc_rem); 
+				for(i=0; snmp_V6_name[i] != NULL  ; i++){
+					fprintf(output, " %s;", snmp_V6_name[i]); 
+				}
+			}
+		break;
+		
+		case 3:  // print TCP titles
+			/* SNMP TCP titles */
+			fprintf(output, "%c TCP;", loc_rem);
+			fprintf(output, " TCPInSegs; TCPInErrs; TCPOutSegs; TCPOutRsts; TCPRetransSegs;");  
+		break;
+
+		case 2:  // print UDP data
+		case 6:  // print both UDP & TCP data
+			/* snmp counts IPv4 */
+			if((snmp_info->mode & SNMP_V4) ==  SNMP_V4) {
+				fprintf(output, "%c snmp;", loc_rem);
+				fprintf(output, " %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;",
+					snmp_info->InReceives, snmp_info->InDiscards,
+					snmp_info->OutRequests, snmp_info->OutDiscards);
+				fprintf(output, " %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+					snmp_info->UDPInDatagrams, snmp_info->UDPInErrors, snmp_info->UDPOutDatagrams);
+			}	
+	
+			/* snmp counts IPv6 */
+			if((snmp_info->mode & SNMP_V6) ==  SNMP_V6) {
+				fprintf(output, " %c snmp6;", loc_rem); 
+				fprintf(output, " %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;",
+					snmp_info->Ip6InReceives, snmp_info->Ip6InDiscards,
+					snmp_info->Ip6OutRequests, snmp_info->Ip6OutDiscards);
+				fprintf(output, " %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+					snmp_info->Udp6InDatagrams, snmp_info->Udp6InErrors, snmp_info->Udp6OutDatagrams);
+			}
+		break;
+	  
+		case 4:  // print TCP data
+			// print TCP data   
+			fprintf(output, "%c TCP;", loc_rem);
+			fprintf(output, " %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+				snmp_info->TCPInSegs, snmp_info->TCPInErrs, snmp_info->TCPOutSegs, 
+				snmp_info->TCPOutRsts, snmp_info->TCPRetransSegs);
+		break;
+	}
+
+	return;
+
+} /* end of  snmp_print_info_file */
+
+
+void net_snmp_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print interface & snmp info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print UDP titles
+                  =2 print UDP data
+                  =3 print TCP titles
+                  =4 print TCP data
+                  =5 print both UDP & TCP titles
+                  =6 print both UDP & TCP data
+*/
+
+/* set default options ie IPv4 only */
+	if(init_called ==0){
+		snmp_info->mode = SNMP_V4;
+	}
+
+	/* common output */
+	switch(option){
+		case 1:  // print UDP titles
+		case 5:  // print both UDP & TCP titles
+			/* interface titles */
+			net_print_info_file( net_if_info, snmp_info, 1, loc_rem, stdout);	
+			/* snmp UDP titles IPv4 */
+			snmp_print_info_file( net_if_info, snmp_info, 1, loc_rem, stdout);	
+		break;
+
+		case 3:  // print TCP titles
+			/* interface titles */
+			net_snmp_print_info_file( net_if_info, snmp_info, option, loc_rem, stdout);    fprintf(output, " %c if; interface:; pktsin; bytesin; errin; dropin; pktsout; bytesout; errout; dropout;", loc_rem);
+
+			/* SNMP TCP titles */
+			snmp_print_info_file( net_if_info, snmp_info, 3, loc_rem, stdout);		  
+		break;
+
+		case 2:  // print UDP data
+		case 6:  // print both UDP & TCP data
+			/* interface counts */
+			net_snmp_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);
+
+			/* snmp counts */
+			snmp_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);		  
+		break;
+	  
+		case 4:  // print snmp TCP data
+			/* interface counts */
+			net_snmp_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);
+
+			// print TCP data   
+			snmp_print_info_file( net_if_info, snmp_info, 4, loc_rem, stdout);		  
+		break;
+	}
+
+	return;
 
 } /* end of  net_snmp_print_info */

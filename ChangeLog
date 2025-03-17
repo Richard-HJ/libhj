@@ -1,3 +1,7 @@
+VERSION 4.9.3
+17 Mar 25
+		Modify Stats/net_snmp.c net_snmp.h to allow the network i/f stats to be printed as a table
+
 VERSION 4.9.2		
 27 Jan 25
 		sys_utils: Allow use of > 64 cores by using cpu_set_t cpuset to define which cores to use

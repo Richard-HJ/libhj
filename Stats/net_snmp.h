@@ -113,3 +113,9 @@ void net_snmp_Info( NET_SNMPStat* s, NETIFinfo *net_info, SNMPinfo *snmp_info );
 void net_snmp_Snap( NET_SNMPStat* s, NETIFinfo *net_info, SNMPinfo *snmp_info );
 void net_snmp_print_info( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem);
 void net_snmp_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output);
+void net_print_info( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem);
+void net_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output);
+void snmp_print_info( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem);
+void snmp_print_info_file( NETIFinfo *net_if_info, SNMPinfo *snmp_info, int option, char loc_rem, FILE *output);
+
+
