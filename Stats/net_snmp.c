@@ -856,9 +856,9 @@ Print interface info
 					net_if_info[i].pktsin, net_if_info[i].bytesin,
 					net_if_info[i].errin, net_if_info[i].dropin,
 					net_if_info[i].pktsout, net_if_info[i].bytesout,
-					net_if_info[i].errout, net_if_info[i].dropout);
+					net_if_info[i].errout, net_if_info[i].dropout);	
+					fprintf(output, "\n");
 				}
-				fprintf(output, "\n");
 			}
 		break;
 }
@@ -998,8 +998,7 @@ Print interface & snmp info
 
 		case 3:  // print TCP titles
 			/* interface titles */
-			net_snmp_print_info_file( net_if_info, snmp_info, option, loc_rem, stdout);    fprintf(output, " %c if; interface:; pktsin; bytesin; errin; dropin; pktsout; bytesout; errout; dropout;", loc_rem);
-
+			net_print_info_file( net_if_info, snmp_info, 1, loc_rem, stdout);
 			/* SNMP TCP titles */
 			snmp_print_info_file( net_if_info, snmp_info, 3, loc_rem, stdout);		  
 		break;
@@ -1015,7 +1014,7 @@ Print interface & snmp info
 	  
 		case 4:  // print snmp TCP data
 			/* interface counts */
-			net_snmp_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);
+			net_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);
 
 			// print TCP data   
 			snmp_print_info_file( net_if_info, snmp_info, 4, loc_rem, stdout);		  
