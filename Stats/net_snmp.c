@@ -265,6 +265,7 @@ void net_snmp_Info( NET_SNMPStat* s,  NETIFinfo *net_if_info, SNMPinfo *snmp_inf
   /* the lines about wrap32bit are to get round compiler sign issues */
   int64 wrap32bit = 2147483647;
   wrap32bit = wrap32bit*2 +1;
+  int size;
 
 /* initalise */
     num2 =0;
@@ -304,8 +305,10 @@ void net_snmp_Info( NET_SNMPStat* s,  NETIFinfo *net_if_info, SNMPinfo *snmp_inf
 			s->net_info1[i].bytesout = bytesout;
 			s->net_info1[i].errout = errout;
 			s->net_info1[i].dropout = dropout;
-			strncpy(&s->net_info1[i].name[0], name1, NET_SNMP_MAX_NAME);
-			s->net_info1[0].name[NET_SNMP_MAX_NAME-1] =0; // just in case
+//			strncpy(&s->net_info1[i].name[0], name1, NET_SNMP_MAX_NAME);
+			size = strnlen(name1, NET_SNMP_MAX_NAME-1);
+			memcpy(&s->net_info1[i].name[0], name1, size);
+			s->net_info1[i].name[NET_SNMP_MAX_NAME-1] =0; // just in case
 			i++;
 		}
     }  /* end of for(;;) */
@@ -351,8 +354,10 @@ void net_snmp_Info( NET_SNMPStat* s,  NETIFinfo *net_if_info, SNMPinfo *snmp_inf
 			s->net_info2[i].bytesout = bytesout;
 			s->net_info2[i].errout = errout;
 			s->net_info2[i].dropout = dropout;
-			strncpy(&s->net_info2[i].name[0], name1, NET_SNMP_MAX_NAME);
-			s->net_info2[0].name[NET_SNMP_MAX_NAME-1] =0; // just in case
+//			strncpy(&s->net_info2[i].name[0], name1, NET_SNMP_MAX_NAME);
+			size = strnlen(name1, NET_SNMP_MAX_NAME-1);
+			memcpy(&s->net_info2[i].name[0], name1, size);
+			s->net_info2[i].name[NET_SNMP_MAX_NAME-1] =0; // just in case
 			i++;
 		}
     }  /* end of for(;;) */
