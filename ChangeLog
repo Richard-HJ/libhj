@@ -1,3 +1,7 @@
+VERSION 4.9.4
+05 May 25
+		make error_msg[] local to function rdma_stats_Start()in RDMA_Stats.c
+
 VERSION 4.9.3
 17 Mar 25
 		Modify Stats/net_snmp.c net_snmp.h to allow the network i/f stats to be printed as a table

@@ -17,8 +17,6 @@
 #define FILE_RDMAHW_COUNTERS   "/hw_counters/"
 #define FILE_RDMACOUNTERS      "/counters/"
 
-#define ERROR_MSG_SIZE 256
-    char error_msg[ERROR_MSG_SIZE];              /* buffer for error messages */
  /* Location of directory 
  /sys/class/infiniband/mlx5_1/ports/1/hw_counters/ *
  */
@@ -75,6 +73,8 @@ void rdma_stats_Start( RDMA_Stat* s)
   int i;
   FILE *stats_file;
   char filename[RDMA_STATS_MAX_NAME];
+#define ERROR_MSG_SIZE 256
+  char error_msg[ERROR_MSG_SIZE];              /* buffer for error messages */
   
   
 /* loop over hw_counters */
