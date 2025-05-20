@@ -1,3 +1,7 @@
+VERSION 4.9.5
+20 May 25
+		Allow for > 99 cores; remove reading interrupt file in CPUStats.c 
+
 VERSION 4.9.4
 05 May 25
 		make error_msg[] local to function rdma_stats_Start()in RDMA_Stats.c

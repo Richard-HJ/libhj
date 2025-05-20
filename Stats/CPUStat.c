@@ -142,8 +142,9 @@ void CPUStat_Start( CPUStat* s)
 
 
 /* open the file with the interrupt stats and read it all */
+/*
     if ( (stats_desc = open(FILE_INTERRUPTS, O_RDONLY) ) == -1) {
-        perror("Error: open FILE_INTERRUPTS failed :");   /* descr. is used */
+        perror("Error: open FILE_INTERRUPTS failed :");   // descr. is used 
         exit(-1);
     }
     nread = read(stats_desc, s->interrupt1_buf, CPUStat_MAX_BUF);
@@ -153,7 +154,7 @@ void CPUStat_Start( CPUStat* s)
     }		
     s->interrupt1_buf[CPUStat_MAX_BUF-1] = 0;
     close(stats_desc); 
- 
+*/ 
 
  /* open the file with the cpu stats and read it all */
     if ( (stats_fd = fopen(FILE_STAT, "r") ) == NULL) {
@@ -179,7 +180,10 @@ void CPUStat_Start( CPUStat* s)
       else if (!strncmp(line, "cpu", 3)) { // look for a numbered cpu line cpu0 cpu1 ...
  	sscanf(line + 3, "%d ", &cpu_no);
 	cpu_no++;  // add one as use [0] for the average
- 	sscanf(line + 5, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
+	char *line_ptr;
+	line_prt = strchr(line, ' ');
+// 	sscanf(line + 5, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
+ 	sscanf(line_ptr, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
 		 &s->info1[cpu_no].user, 
 		 &s->info1[cpu_no].lo_pri, 
 		 &s->info1[cpu_no].kernel, 
@@ -208,8 +212,9 @@ void CPUStat_Stop( CPUStat* s)
 
 
 /* open the file with the interrupt stats and read it all */
+/*
     if ( (stats_desc = open(FILE_INTERRUPTS, O_RDONLY) ) == -1) {
-        perror("Error: open FILE_INTERRUPTS failed :");   /* descr. is used */
+        perror("Error: open FILE_INTERRUPTS failed :");   // descr. is used
         exit(-1);
     }
     nread = read(stats_desc, s->interrupt2_buf, CPUStat_MAX_BUF);
@@ -219,6 +224,7 @@ void CPUStat_Stop( CPUStat* s)
     }		
     s->interrupt2_buf[CPUStat_MAX_BUF-1] = 0;
     close(stats_desc); 
+*/
 
  /* open the file with the cpu stats and read it all */
     if ( (stats_fd = fopen(FILE_STAT, "r") ) == NULL) {
@@ -244,7 +250,10 @@ void CPUStat_Stop( CPUStat* s)
       else if (!strncmp(line, "cpu", 3)) { // look for a numbered cpu line cpu0 cpu1 ...
  	sscanf(line + 3, "%d ", &cpu_no);
 	cpu_no++;  // add one as use [0] for the average
- 	sscanf(line + 5, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
+	char *line_ptr;
+	line_prt = strchr(line, ' ');
+// 	sscanf(line + 5, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
+ 	sscanf(line_ptr, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
 		 &s->info2[cpu_no].user, 
 		 &s->info2[cpu_no].lo_pri, 
 		 &s->info2[cpu_no].kernel, 
