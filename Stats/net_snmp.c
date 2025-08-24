@@ -93,9 +93,12 @@ Inter-|   Receive                                                |  Transmit
 void net_snmp_Init( NET_SNMPStat* s, SNMPinfo *snmp_info, int mode)
 /* --------------------------------------------------------------------- */
 {
-  s->mode = mode;
-  snmp_info->mode =mode;
-  init_called =1;
+	/* 
+	mode = SNMP_V4 or SNMP_V6
+	*/
+	s->mode = mode;
+	snmp_info->mode =mode;
+	init_called =1;
 }
 
 void net_snmp_Start( NET_SNMPStat* s)
@@ -866,7 +869,7 @@ Print interface info
 				}
 			}
 		break;
-}
+	}
 
   return;
 
@@ -997,7 +1000,7 @@ Print interface & snmp info
 		case 5:  // print both UDP & TCP titles
 			/* interface titles */
 			net_print_info_file( net_if_info, snmp_info, 1, loc_rem, stdout);	
-			/* snmp UDP titles IPv4 */
+			/* snmp UDP titles IPv4 or IPv6 */
 			snmp_print_info_file( net_if_info, snmp_info, 1, loc_rem, stdout);	
 		break;
 
@@ -1011,7 +1014,7 @@ Print interface & snmp info
 		case 2:  // print UDP data
 		case 6:  // print both UDP & TCP data
 			/* interface counts */
-			net_snmp_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);
+			net_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);
 
 			/* snmp counts */
 			snmp_print_info_file( net_if_info, snmp_info, 2, loc_rem, stdout);		  

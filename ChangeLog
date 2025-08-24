@@ -1,4 +1,9 @@
-VERSION 4.9.5
+VERSION 4.9.5 branch i/f_StatsTable
+24 Aug 25
+		Test v 4.9.5 rdmamon_rc Durham
+		Correct call to net_print_info_file() in CPUStats.c (caused infinite loop)
+
+VERSION 4.9.5 branch i/f_StatsTable
 20 May 25
 		Allow for > 99 cores; remove reading interrupt file in CPUStats.c
 
@@ -24,6 +29,9 @@ VERSION 4.9.1
 		Note: with libhj-4.9.1 CMD_GETCPULOAD expects data block to be 96 cores long (not 64)
 		Checked return from read() CPUstat.c and net_snmp.c
 
+19 Mar 24
+		Use github
+		
 VERSION 4.8.2
 16 May 23
 		Modify net_snmp.h net_snmp.c to report interface errors and dropped packets
