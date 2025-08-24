@@ -2,7 +2,8 @@ VERSION 4.9.5 branch i/f_StatsTable
 24 Aug 25
 		Test v 4.9.5 rdmamon_rc Durham
 		Correct call to net_print_info_file() in CPUStats.c (caused infinite loop)
-
+		Correct prt -> ptr typo CPUStat.c
+		
 VERSION 4.9.5 branch i/f_StatsTable
 20 May 25
 		Allow for > 99 cores; remove reading interrupt file in CPUStats.c

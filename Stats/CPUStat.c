@@ -128,10 +128,8 @@ void CPUStat_Start( CPUStat* s)
 /* --------------------------------------------------------------------- */
 {
   FILE *stats_fd;  // file descriptor
-  int stats_desc;
   char line[8192];
   int cpu_no=0;
-  int nread=0;
 
   /* set the snapshot flag - helps not decode the CPUStat_Start() data */
   s->snapshot = 0;
@@ -181,7 +179,7 @@ void CPUStat_Start( CPUStat* s)
  	sscanf(line + 3, "%d ", &cpu_no);
 	cpu_no++;  // add one as use [0] for the average
 	char *line_ptr;
-	line_prt = strchr(line, ' ');
+	line_ptr = strchr(line, ' ');
 // 	sscanf(line + 5, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
  	sscanf(line_ptr, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
 		 &s->info1[cpu_no].user, 
@@ -205,10 +203,8 @@ void CPUStat_Stop( CPUStat* s)
 /* --------------------------------------------------------------------- */
 {
   FILE *stats_fd;  // file descriptor
-  int stats_desc;
   char line[8192];
   int cpu_no=0;
-  int nread = 0;
 
 
 /* open the file with the interrupt stats and read it all */
@@ -251,7 +247,7 @@ void CPUStat_Stop( CPUStat* s)
  	sscanf(line + 3, "%d ", &cpu_no);
 	cpu_no++;  // add one as use [0] for the average
 	char *line_ptr;
-	line_prt = strchr(line, ' ');
+	line_ptr = strchr(line, ' ');
 // 	sscanf(line + 5, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
  	sscanf(line_ptr, "%"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u %"LONG_FORMAT"u",
 		 &s->info2[cpu_no].user, 
