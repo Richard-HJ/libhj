@@ -1,3 +1,11 @@
+VERSION 4.9.5 branch master
+03 Oct 25
+		tag master as libhj-4.9.5  and push to github
+		
+VERSION 4.9.5 branch master
+09 Sep 25
+		Merge libhj branch i/f_StatsTable to master
+		
 VERSION 4.9.5 branch i/f_StatsTable
 24 Aug 25
 		Test v 4.9.5 rdmamon_rc Durham
