@@ -1,4 +1,6 @@
 VERSION 4.9.5 branch master
+18 Mar 26
+		correct version in libhj.spec to 4.9.5 from 4.9.1
 03 Oct 25
 		tag master as libhj-4.9.5  and push to github
 		
