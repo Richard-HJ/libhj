@@ -1,6 +1,6 @@
 Summary:	hjtools
 Name:		libhj-devel
-Version:	4.9.5
+Version:	4.9.6
 Release:	1%{?dist}
 License:	distributable
 Group:		Development/Internet
