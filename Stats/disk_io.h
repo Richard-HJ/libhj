@@ -44,7 +44,7 @@
 #include "arch.h"               /* define the architecture */
 
 #define DISKIO_MAX_NAME 16
-#define DISKIO_MAX_IF   4
+#define DISKIO_MAX_IF   16
 
 
 /*
@@ -85,3 +85,5 @@ void disk_io_Start( DISK_IOStat* s);
 void disk_io_Stop( DISK_IOStat* s);
 void disk_io_Info( DISK_IOStat* s, DISK_IOinfo *diskio_info );
 void disk_io_Snap( DISK_IOStat* s, DISK_IOinfo *diskio_info );
+void disk_print_info(DISK_IOinfo *diskio_info, int option, char loc_rem);
+void disk_print_info_file(DISK_IOinfo *diskio_info, int option, char loc_rem, FILE *output);

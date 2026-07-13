@@ -1,3 +1,8 @@
+VERSION 4.9.7 branch disk_io 4.9.7_disk_io
+13 Jul 26
+		Update stats/disk_io.c Add disk_print_info*() 
+		Update Stats/disk_io.h DISKIO_MAX_IF 16 add ref for disk_print_info*()
+
 VERSION 4.9.6 branch master
 18 Mar 26
 		correct version in libhj.spec to 4.9.6 from 4.9.1

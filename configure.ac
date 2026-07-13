@@ -1,6 +1,6 @@
 dnl This is a comment 
 
-AC_INIT([libhj],[4.9.5])
+AC_INIT([libhj],[4.9.7_disk_io])
 
 AM_INIT_AUTOMAKE([subdir-objects])
 

@@ -255,3 +255,71 @@ return the delta counts since disk_io_Start() or the last disk_io_Snap()
 
 }
 
+void disk_print_info(DISK_IOinfo *diskio_info, int option, char loc_rem)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print disk_io info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print disk_io info titles
+                  =2 print disk_io data
+                  =3 print titles for a table
+                  =4 print data in a table
+*/
+	disk_print_info_file(diskio_info, option, loc_rem, stdout);
+}
+
+void disk_print_info_file(DISK_IOinfo *diskio_info, int option, char loc_rem, FILE *output)
+/* --------------------------------------------------------------------- */
+{
+/*
+Print disk_io info
+
+  loc_rem         = 'L' for local or 'R' for remote data
+  option          =1 print disk_io info titles
+                  =2 print disk_io data
+                  =3 print titles for a table
+                  =4 print data in a table
+*/
+  int i;
+
+	switch(option){
+		case 1:  // print disk_io titles
+		/* disk_io titles */
+			fprintf(output, " %c Disk; disk:; read_IOs; rd_merged; rd_sectors; rd_time ms; write_IOs; wr_merged; wr_sectors; wr_time ms;", loc_rem);
+		break;
+		
+		case 2:  // print disk_io data
+		/* disk_io counts */
+			fprintf(output, " %c Disk;", loc_rem);
+			for (i=0; i<DISKIO_MAX_IF; i++){
+				if(diskio_info[i].name[0] != 0){
+					fprintf(output, " %s: ; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+					&diskio_info[i].name[0], 
+					diskio_info[i].rd_ios, diskio_info[i].rd_merged, diskio_info[i].rd_sectors, diskio_info[i].rd_ms,
+					diskio_info[i].wr_ios, diskio_info[i].wr_merged, diskio_info[i].wr_sectors, diskio_info[i].wr_ms );					
+				}
+			}
+		break;
+		
+		case 3:  // print titles for a table
+			fprintf(output, " %c Disk; disk:; read_IOs; rd_merged; rd_sectors; rd_time ms; write_IOs; wr_merged; wr_sectors; wr_time ms;", loc_rem);
+			fprintf(output, "\n");
+		break;
+
+		case 4:  // print data in a table
+			for (i=0; i<DISKIO_MAX_IF; i++){
+				if(diskio_info[i].name[0] != 0){
+					fprintf(output, " %s: ; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d; %" LONG_FORMAT "d;", 
+					&diskio_info[i].name[0], 
+					diskio_info[i].rd_ios, diskio_info[i].rd_merged, diskio_info[i].rd_sectors, diskio_info[i].rd_ms,
+					diskio_info[i].wr_ios, diskio_info[i].wr_merged, diskio_info[i].wr_sectors, diskio_info[i].wr_ms );					
+					fprintf(output, "\n");
+				}
+			}
+		break;
+	}
+
+  return;
+} /* end of disk_print_info_file */
